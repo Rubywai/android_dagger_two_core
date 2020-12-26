@@ -9,12 +9,13 @@ import com.rubywei.androiddaggertutorial.appdepend.HttpClient
 import com.rubywei.androiddaggertutorial.activitydependent.MyNumber
 
 import javax.inject.Inject
+import javax.inject.Named
 
 
 class MainActivity : AppCompatActivity() {
     private  val TAG = "MainActivity"
     @Inject lateinit var httpClient: HttpClient
-    @Inject lateinit var number : MyNumber
+    @Inject @Named("two") lateinit var number : MyNumber
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

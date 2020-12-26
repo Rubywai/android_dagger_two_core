@@ -5,7 +5,7 @@ import javax.inject.Named
 
 
 @PerActivity
-@Named("one") //progaurd will look
+//progaurd will look
 class One @Inject constructor(private var value : Int) : MyNumber {
     override fun value(): Int = value
 }
