@@ -5,46 +5,34 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.rubywei.MyApplication
-import com.rubywei.androiddaggertutorial.activity.MyComponentEntryPoint
-import com.rubywei.androiddaggertutorial.activity.MyComponentManager
-import com.rubywei.androiddaggertutorial.activity.One
 import com.rubywei.androiddaggertutorial.appdepend.HttpClient
-import dagger.hilt.EntryPoints
-import dagger.hilt.android.AndroidEntryPoint
+import com.rubywei.androiddaggertutorial.activitydependent.MyNumber
 
 import javax.inject.Inject
 import javax.inject.Named
 
-@AndroidEntryPoint
+
 class MainActivity : AppCompatActivity() {
     private  val TAG = "MainActivity"
     @Inject lateinit var httpClient: HttpClient
-    @Inject lateinit var myComponentManager: MyComponentManager
-    private lateinit var one : One
-
+    @Inject @Named("two") lateinit var number : MyNumber
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         findViewById<TextView>(R.id.text).setOnClickListener {
-
+            val activityComponent =  (application as MyApplication)
+                    .getComponent()
+                    .activityComponent()
+                    .create(20)
+            activityComponent.inject(this)
             Log.d(TAG, "$httpClient")
-            myComponentManager.setString("hello")
-            one = EntryPoints.get(myComponentManager.myComponent,MyComponentEntryPoint::class.java).one()
-            Log.d(TAG, "$one")
-
-
-
-
-
-
+            Log.d(TAG, "{${number.value()}}")
         }
         findViewById<TextView>(R.id.text3).setOnClickListener {
-
+            Log.d(TAG, "{${number}}")
             Log.d(TAG, "{${httpClient.str}}")
-            Log.d(TAG, "$one")
-
         }
 
     }

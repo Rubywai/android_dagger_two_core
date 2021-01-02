@@ -1,7 +1,16 @@
 package com.rubywei
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.rubywei.androiddaggertutorial.di.AppComponent
+import com.rubywei.androiddaggertutorial.di.DaggerAppComponent
+import com.rubywei.androiddaggertutorial.di.HttpModule
 
-@HiltAndroidApp
-class MyApplication : Application()
+
+class MyApplication : Application() {
+  private  val myComponent : AppComponent by lazy {
+      DaggerAppComponent.factory()
+              .start(HttpModule("Volley Library"))
+  }
+    fun getComponent() = myComponent
+
+}
